@@ -1,7 +1,5 @@
 # site-data
 public-html/*
-!public-html/.gitkeep
-!public-html/css/.gitkeep
 
 # Logs
 logs
