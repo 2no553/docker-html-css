@@ -1,2 +1,4 @@
 # site-data
-public-html/*
+public-html/css/*
+public-html/images/*
+public-html/*.html
