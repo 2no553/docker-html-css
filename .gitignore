@@ -1,5 +1,14 @@
 # site-data
-public-html/*
+/public-html/css/*
+!/public-html/css/.gitkeep
+/public-html/font/*
+!/public-html/font/.gitkeep
+/public-html/images/*
+!/public-html/images/.gitkeep
+/public-html/js/*
+!/public-html/js/.gitkeep
+/public-html/sass/*
+!/public-html/sass/.gitkeep
 
 # Logs
 logs

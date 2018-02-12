@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>お問い合わせの入力内容</title>
+<style>
+#result {
+	width: 800px;
+	border: 1px solid #cccccc;
+	border-collapse: collapse;
+}
+#result th,
+#result td {
+	padding: 0.5em;
+	border: 1px solid #cccccc;
+	text-align: left;
+	vertical-align: top;
+}
+#result th {
+	width: 100px;
+	background-color: #eeeeee;
+}
+#result td {
+}
+</style>
+<script>
+window.onload = function() {
+	var params = decodeURI(location.search);
+	params = params.substring(1);
+	var paramArray = [];
+	paramArray = params.split("&");
+	var tableContent = "";
+	for(var i in paramArray) {
+		var dataStr = paramArray[i];
+		var keyValue = [];
+		keyValue = dataStr.split("=");
+		var tr = document.createElement("tr");
+		var tdName = document.createElement("td");
+		tdName.innerHTML = keyValue[0];
+		var tdValue = document.createElement("td");
+		tdValue.innerHTML = keyValue[1];
+		tr.appendChild(tdName);
+		tr.appendChild(tdValue);
+		var e = document.getElementById("test");
+		e.appendChild(tr);
+	}
+};
+
+</script>
+</head>
+<body>
+<h1>お問い合わせフォームの入力内容</h1>
+<table id="result">
+	<tbody id="test">
+	<tr><th>name属性</th><th>入力された内容</th></tr>
+	</tbody>
+</table>
+<p><a href="contact.html">←お問い合わせフォームに戻る</a></p>
+</body>
+</html>
