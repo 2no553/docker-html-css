@@ -8,6 +8,7 @@ var gulp = require('gulp'),
     notify = require('gulp-notify'),
     sass = require('gulp-sass'),
     autoprefixer = require('gulp-autoprefixer'),
+    cleanCSS = require('gulp-clean-css'),
     browserSync = require('browser-sync').create();
 /*
 
@@ -17,7 +18,13 @@ add folder
 */
 //folder to develop
 var develop = "public-html/";
-
+//config path from gulpfile.js
+var config = {
+	'path' : {
+    'beforeCompileSass' : develop+'sass/**/*.scss',
+    'afterCompileSass' : develop+'css/',
+  }
+}
 
 /*
 =====================================
@@ -27,8 +34,8 @@ glup task
 //default
 gulp.task('default',function(){
   // watch
-  gulp.watch(develop+'/sass/**/*.scss', ['sass']);
-  gulp.watch(develop+"/*.html", ['reload']);
+  gulp.watch(config.path.beforeCompileSass, ['sass']);
+  gulp.watch(develop+'/*.html').on('change', browserSync.reload);
 
   // Static server
   browserSync.init({
@@ -39,7 +46,7 @@ gulp.task('default',function(){
 
   //sass compile
   gulp.task('sass', function(){
-    gulp.src(develop+'/sass/**/*.scss')
+    gulp.src(config.path.beforeCompileSass)
       .pipe(plumber({
         errorHandler: notify.onError('Error: <%= error.message %>')
       }))
@@ -48,7 +55,8 @@ gulp.task('default',function(){
           browsers: ['last 2 versions', 'ie >= 9', 'Android >= 4', 'ios_saf >= 8'],
           cascade: false
       }))
-      .pipe(gulp.dest(develop+'/css'))
+      .pipe(cleanCSS())
+      .pipe(gulp.dest(config.path.afterCompileSass))
       .pipe(browserSync.stream())
   });
 
