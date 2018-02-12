@@ -1,4 +1,6 @@
 # site-data
+/public-html/*
+!/public-html/.gitkeep
 /public-html/css/*
 !/public-html/css/.gitkeep
 /public-html/font/*
