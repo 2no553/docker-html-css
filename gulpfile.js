@@ -13,13 +13,15 @@ add folder
 =====================================
 */
 //folder to develop
-var develop = './public-html/';
+var develop = './public-html/',
+    src = develop+'src/';
 
 /*
 =====================================
 glup task
 =====================================
 */
+// Static server
 gulp.task('browser-sync', function() {
     browserSync.init({
         server: {
@@ -28,36 +30,42 @@ gulp.task('browser-sync', function() {
     });
 });
 
+// watch
 gulp.task('watch',function(){
-  gulp.watch(develop+'src/sass/**/*.scss', ['sass']);
-  gulp.watch(develop+'src/js/**/*.js', ['js']);
-  gulp.watch(develop+'*.html').on('change', browserSync.reload);
+  gulp.watch([src + 'ejs/**/*.ejs', src + 'ejs/_module/_*.ejs'], ['ejs']);
+  gulp.watch(src + 'js/**/*.js', ['js']);
+  gulp.watch(src + 'sass/**/*.scss', ['sass']);
+  gulp.watch(develop + '*.html').on('change', browserSync.reload);
 });
 
+// images compress
 gulp.task('images', function() {
-  gulp.src(develop+'src/images/**/*')
+  gulp.src(src + 'images/**/*')
     .pipe($.plumber({
       errorHandler: $.notify.onError('Error: <%= error.message %>')
     }))
-    .pipe($.changed(develop+'images/'))
+    .pipe($.changed(develop + 'images/'))
     .pipe($.imagemin({ optimizationLevel: 5 }))
-    .pipe(gulp.dest(develop+'images/'))
+    .pipe(gulp.dest(develop + 'images/'))
 });
 
-gulp.task('js', function() {
-  gulp.src(develop+'src/js/**/*.js')
+// ejs compile
+gulp.task('ejs', ['images'], function(){
+  gulp.src([src + 'ejs/**/*.ejs', '!' + src + 'ejs/_module/_*.ejs'])
     .pipe($.plumber({
       errorHandler: $.notify.onError('Error: <%= error.message %>')
     }))
-    .pipe($.uglify())
-    .pipe(gulp.dest(develop+'js/'))
+    .pipe($.ejs({}, {}, { ext: '.html' }))
+    .pipe(gulp.dest(develop));
 });
 
+// sass compile
 gulp.task('sass', ['images'], function(){
-  gulp.src(develop+'src/sass/**/*.scss')
+  gulp.src([src + 'sass/**/*.scss', '!' + src + 'sass/**/_*.scss'])
     .pipe($.plumber({
       errorHandler: $.notify.onError('Error: <%= error.message %>')
     }))
+    .pipe($.sassGlob())
     .pipe($.sass())
     .pipe($.autoprefixer({
         browsers: ['last 2 versions', 'ie >= 9', 'Android >= 4', 'ios_saf >= 8'],
@@ -66,12 +74,22 @@ gulp.task('sass', ['images'], function(){
     .pipe($.csscomb())
     .pipe($.groupCssMediaQueries())
     .pipe($.cleanCss())
-    .pipe(gulp.dest(develop+'css/'))
+    .pipe(gulp.dest(develop + 'css/'))
     .pipe(browserSync.stream())
 });
 
+// js minify
+gulp.task('js', function() {
+  gulp.src(src + 'js/**/*.js')
+    .pipe($.plumber({
+      errorHandler: $.notify.onError('Error: <%= error.message %>')
+    }))
+    .pipe($.uglify())
+    .pipe(gulp.dest(develop + 'js/'))
+});
+
 // run all tasks
-gulp.task('run', ['js', 'sass']);
+gulp.task('run', ['ejs', 'sass', 'js']);
 
 // default task
 gulp.task('default', ['browser-sync', 'watch', 'run']);
