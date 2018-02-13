@@ -21,6 +21,7 @@ var develop = './public-html/',
 glup task
 =====================================
 */
+// default
 // Static server
 gulp.task('browser-sync', function() {
     browserSync.init({
@@ -38,6 +39,7 @@ gulp.task('watch',function(){
   gulp.watch(develop + '*.html').on('change', browserSync.reload);
 });
 
+// build
 // images compress
 gulp.task('imagemin', function() {
   gulp.src(src + 'images/**/*')
@@ -65,6 +67,8 @@ gulp.task('sass', ['imagemin'], function(){
     .pipe($.plumber({
       errorHandler: $.notify.onError('Error: <%= error.message %>')
     }))
+    .pipe($.stylint())
+    .pipe($.stylint.reporter())
     .pipe($.sassGlob())
     .pipe($.sass())
     .pipe($.autoprefixer({
@@ -77,9 +81,34 @@ gulp.task('sass', ['imagemin'], function(){
     .pipe(browserSync.stream())
 });
 
+// html lint
+gulp.task('htmlhint', ['ejs'], function(){
+  gulp.src(develop + '*.html')
+    .pipe($.plumber({
+      errorHandler: $.notify.onError('Error: <%= error.message %>')
+    }))
+    .pipe($.htmlhint(develop +'htmlhintrc'))
+    .pipe($.htmlhint.reporter())
+});
+
+// js lint
+gulp.task('eslint', function() {
+  gulp.src(src + 'js/**/*.js')
+    .pipe($.plumber({
+      errorHandler: $.notify.onError('Error: <%= error.message %>')
+    }))
+    .pipe($.eslint({
+      useEslintrc: true
+    }))
+    .pipe($.eslint.format())
+    .pipe($.eslint.failAfterError())
+    .pipe(gulp.dest(develop + 'js/'))
+});
+
+// deploy
 // js minify
 gulp.task('uglify', function() {
-  gulp.src(src + 'js/**/*.js')
+  gulp.src(develop + 'js/**/*.js')
     .pipe($.plumber({
       errorHandler: $.notify.onError('Error: <%= error.message %>')
     }))
@@ -100,6 +129,6 @@ gulp.task('cleanCss', function() {
 // default tasks
 gulp.task('default', ['browser-sync', 'watch']);
 // build tasks
-gulp.task('build', ['ejs', 'sass']);
+gulp.task('build', ['sass', 'htmlhint', 'eslint']);
 // build and deploy tasks
 gulp.task('deploy', ['uglify', 'cleanCss']);
