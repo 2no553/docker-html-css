@@ -39,7 +39,7 @@ gulp.task('watch',function(){
 });
 
 // images compress
-gulp.task('images', function() {
+gulp.task('imagemin', function() {
   gulp.src(src + 'images/**/*')
     .pipe($.plumber({
       errorHandler: $.notify.onError('Error: <%= error.message %>')
@@ -50,7 +50,7 @@ gulp.task('images', function() {
 });
 
 // ejs compile
-gulp.task('ejs', ['images'], function(){
+gulp.task('ejs', ['imagemin'], function(){
   gulp.src([src + 'ejs/**/*.ejs', '!' + src + 'ejs/_module/_*.ejs'])
     .pipe($.plumber({
       errorHandler: $.notify.onError('Error: <%= error.message %>')
@@ -60,7 +60,7 @@ gulp.task('ejs', ['images'], function(){
 });
 
 // sass compile
-gulp.task('sass', ['images'], function(){
+gulp.task('sass', ['imagemin'], function(){
   gulp.src([src + 'sass/**/*.scss', '!' + src + 'sass/**/_*.scss'])
     .pipe($.plumber({
       errorHandler: $.notify.onError('Error: <%= error.message %>')
@@ -73,13 +73,12 @@ gulp.task('sass', ['images'], function(){
     }))
     .pipe($.csscomb())
     .pipe($.groupCssMediaQueries())
-    .pipe($.cleanCss())
     .pipe(gulp.dest(develop + 'css/'))
     .pipe(browserSync.stream())
 });
 
 // js minify
-gulp.task('js', function() {
+gulp.task('uglify', function() {
   gulp.src(src + 'js/**/*.js')
     .pipe($.plumber({
       errorHandler: $.notify.onError('Error: <%= error.message %>')
@@ -88,8 +87,19 @@ gulp.task('js', function() {
     .pipe(gulp.dest(develop + 'js/'))
 });
 
-// run all tasks
-gulp.task('run', ['ejs', 'sass', 'js']);
+// css minify
+gulp.task('cleanCss', function() {
+  gulp.src(develop + 'css/**/*.css')
+    .pipe($.plumber({
+      errorHandler: $.notify.onError('Error: <%= error.message %>')
+    }))
+    .pipe($.cleanCss())
+    .pipe(gulp.dest(develop + 'css/'))
+});
 
-// default task
-gulp.task('default', ['browser-sync', 'watch', 'run']);
+// default tasks
+gulp.task('default', ['browser-sync', 'watch']);
+// build tasks
+gulp.task('build', ['ejs', 'sass']);
+// build and deploy tasks
+gulp.task('deploy', ['uglify', 'cleanCss']);
