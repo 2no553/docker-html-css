@@ -82,8 +82,9 @@ gulp.task('sass', ['imagemin'], function(){
     .pipe(browserSync.stream())
 });
 
+// test
 // html lint
-gulp.task('htmlhint', ['ejs'], function(){
+gulp.task('htmlhint', function(){
   gulp.src(develop + '*.html')
     .pipe($.plumber({
       errorHandler: $.notify.onError('Error: <%= error.message %>')
@@ -144,7 +145,9 @@ gulp.task('uglify', function() {
 
 // default tasks
 gulp.task('default', ['browser-sync', 'watch']);
-// build and test tasks
-gulp.task('build', ['sass', 'htmlhint', 'stylint', 'eslint']);
+// build tasks
+gulp.task('build', ['ejs','sass']);
+// test tasks
+gulp.task('test', ['htmlhint', 'stylint', 'eslint']);
 // deploy tasks
 gulp.task('deploy', ['cleanCss', 'uglify']);
