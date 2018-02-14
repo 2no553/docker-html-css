@@ -13,7 +13,7 @@ add folder
 =====================================
 */
 //folder to develop
-var develop = './public-html/',
+var develop = 'public-html/',
     src = develop+'src/';
 
 /*
