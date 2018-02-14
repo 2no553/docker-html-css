@@ -1,1 +1,218 @@
-@charset 'UTF-8';body{margin:0;padding:0;background-color:#f5f3eb}.wrapper{width:900px;margin:0 auto 0 auto}h2{font-size:18px;margin-top:20px;margin-right:0;margin-bottom:20px;margin-left:0;padding-top:10px;padding-right:10px;padding-bottom:10px;padding-left:10px;color:#442220;border-bottom-width:2px;border-bottom-style:dotted;border-bottom-color:#442220}p{line-height:160%}a:link,a:visited{color:#6aa4d6}a:hover{color:#4f7697}a:active{color:#aed3f2}h1{line-height:0;margin:30px 0 30px 0;padding:0;text-align:center}img{border-style:none}#nav{margin:0;padding:15px 30px 10px 30px;background-image:url(../images/menu-bg.png)}#nav li{display:inline;padding-right:30px;list-style-type:none}#nav li a:link,#nav li a:visited{text-decoration:none;color:#f5f3eb}#nav li a:hover{text-decoration:none;color:#e4dbb9}#nav li a:active{text-decoration:none;color:#fff}#footer{font-size:smaller;margin-top:30px;padding:20px 0 20px 0;color:#442220;background-image:url(../images/footer-bg.png);background-repeat:repeat-x}.news_item{margin:0}.keyvisual{margin:20px 0 0 0}.float img{float:left;padding-right:1em}.clear{clear:both}table.info{border-collapse:collapse;border:1px solid #b78c5f}table.info td,table.info th{padding:8px 8px 8px 8px;text-align:left;vertical-align:middle;border:1px solid #d6c2b5}table.info th{color:#442220;background-color:#c99e73}.menu_block{overflow:hidden;zoom:1}.menu_left{float:left;width:280px;margin-right:20px}.menu_right{float:left;width:600px}table.menu_all{border-collapse:collapse;border:none}table.menu_all td{padding:0}table.menu_all td.photo{padding:0 10px 10px 0}.menu_right h3{font-size:16px;margin:20px 0;text-align:right;color:#442220}.menu_right p{font-size:12px;text-align:right}div.map{text-align:center}form div{padding:12px;border-bottom:1px dashed #d6c2b5}select{width:30em}label{color:#442220}input[name=subject]{width:30em}textarea{width:30em;height:6em}input[type=submit]{width:30em;margin:20px 12px}
+@charset 'UTF-8';
+
+/* すべてのWebページに適用される */
+
+body {
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
+  background-color: #f5f3eb;
+}
+
+.wrapper {
+  width: 900px;
+  margin: 0 auto 0 auto;
+}
+
+h2 {
+  font-size: 18px;
+  margin-top: 20px;
+  margin-right: 0;
+  margin-bottom: 20px;
+  margin-left: 0;
+  padding-top: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  color: #442220;
+  border-bottom-width: 2px;
+  border-bottom-style: dotted;
+  border-bottom-color: #442220;
+}
+
+p {
+  line-height: 160%;
+}
+
+a:link,
+a:visited {
+  color: #6aa4d6;
+}
+
+a:hover {
+  color: #4f7697;
+}
+
+a:active {
+  color: #aed3f2;
+}
+
+h1 {
+  line-height: 0;
+  margin: 30px 0 30px 0;
+  padding: 0 0 0 0;
+  text-align: center;
+}
+
+img {
+  border-style: none;
+}
+
+/* すべてのページに適用 - navまわり - */
+
+#nav {
+  margin: 0 0 0 0;
+  padding: 15px 30px 10px 30px;
+  background-image: url(../images/menu-bg.png);
+}
+
+#nav li {
+  display: inline;
+  padding-right: 30px;
+  list-style-type: none;
+}
+
+#nav li a:link,
+#nav li a:visited {
+  text-decoration: none;
+  color: #f5f3eb;
+}
+
+#nav li a:hover {
+  text-decoration: none;
+  color: #e4dbb9;
+}
+
+#nav li a:active {
+  text-decoration: none;
+  color: #fff;
+}
+
+/* すべてのページに適用 - footer - */
+
+#footer {
+  font-size: smaller;
+  margin-top: 30px;
+  padding: 20px 0 20px 0;
+  color: #442220;
+  background-image: url(../images/footer-bg.png);
+  background-repeat: repeat-x;
+}
+
+/* 個別のスタイル */
+
+/* index.html */
+
+.news_item {
+  margin: 0 0 0 0;
+}
+
+.keyvisual {
+  margin: 20px 0 0 0;
+}
+
+/* about.html */
+
+.float img {
+  float: left;
+  padding-right: 1em;
+}
+
+.clear {
+  clear: both;
+}
+
+table.info {
+  border-collapse: collapse;
+  border: 1px solid #b78c5f;
+}
+
+table.info th,
+table.info td {
+  padding: 8px 8px 8px 8px;
+  text-align: left;
+  vertical-align: middle;
+  border: 1px solid #d6c2b5;
+}
+
+table.info th {
+  color: #442220;
+  background-color: #c99e73;
+}
+
+/* menu.html */
+
+.menu_block {
+  overflow: hidden;
+  zoom: 1;
+}
+
+.menu_left {
+  float: left;
+  width: 280px;
+  margin-right: 20px;
+}
+
+.menu_right {
+  float: left;
+  width: 600px;
+}
+
+table.menu_all {
+  border-collapse: collapse;
+  border: none;
+}
+
+table.menu_all td {
+  padding: 0;
+}
+
+table.menu_all td.photo {
+  padding: 0 10px 10px 0;
+}
+
+.menu_right h3 {
+  font-size: 16px;
+  margin: 20px 0;
+  text-align: right;
+  color: #442220;
+}
+
+.menu_right p {
+  font-size: 12px;
+  text-align: right;
+}
+
+/* access.html */
+
+div.map {
+  text-align: center;
+}
+
+/* contact.html */
+
+form div {
+  padding: 12px;
+  border-bottom: 1px dashed #d6c2b5;
+}
+
+select {
+  width: 30em;
+}
+
+label {
+  color: #442220;
+}
+
+input[name=subject] {
+  width: 30em;
+}
+
+textarea {
+  width: 30em;
+  height: 6em;
+}
+
+input[type=submit] {
+  width: 30em;
+  margin: 20px 12px;
+}

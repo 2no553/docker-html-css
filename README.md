@@ -1,11 +1,5 @@
 # gulp-sass
 
-## 検討事項
-- deploy時の最後に圧縮は行う
-- build時にlintは行う
-- compileを行ってるものをwatchする
-- jsはcompileしないので完成したものだけreloadする
-
 ## 使用プラグイン
 ```
 "dependencies": {
@@ -23,12 +17,13 @@
   "gulp-load-plugins": "^1.5.0",
   "gulp-notify": "^3.2.0",
   "gulp-plumber": "^1.2.0",
+  "gulp-rename": "^1.2.2",
   "gulp-sass": "^3.1.0",
   "gulp-sass-glob": "^1.0.8",
   "gulp-stylint": "^4.0.1",
   "gulp-uglify": "^3.0.0",
   "stylelint-config-standard": "^18.0.0"
-  }
+}
 ```
 
 ## 参考データ

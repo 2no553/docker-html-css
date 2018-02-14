@@ -46,7 +46,9 @@ gulp.task('imagemin', function() {
       errorHandler: $.notify.onError('Error: <%= error.message %>')
     }))
     .pipe($.changed(develop + 'images/'))
-    .pipe($.imagemin({ optimizationLevel: 5 }))
+    .pipe($.imagemin({
+      optimizationLevel: 5
+    }))
     .pipe(gulp.dest(develop + 'images/'))
 });
 
@@ -56,8 +58,10 @@ gulp.task('ejs', ['imagemin'], function(){
     .pipe($.plumber({
       errorHandler: $.notify.onError('Error: <%= error.message %>')
     }))
-    .pipe($.ejs({}, {}, { ext: '.html' }))
-    .pipe(gulp.dest(develop));
+    .pipe($.ejs({}, {}, {
+      ext: '.html'
+    }))
+    .pipe(gulp.dest(develop))
 });
 
 // sass compile
@@ -66,8 +70,6 @@ gulp.task('sass', ['imagemin'], function(){
     .pipe($.plumber({
       errorHandler: $.notify.onError('Error: <%= error.message %>')
     }))
-    .pipe($.stylint())
-    .pipe($.stylint.reporter())
     .pipe($.sassGlob())
     .pipe($.sass())
     .pipe($.autoprefixer({
@@ -90,9 +92,19 @@ gulp.task('htmlhint', ['ejs'], function(){
     .pipe($.htmlhint.reporter())
 });
 
+// sass lint
+gulp.task('stylint', function(){
+  gulp.src(src + 'sass/**/*.scss')
+    .pipe($.plumber({
+      errorHandler: $.notify.onError('Error: <%= error.message %>')
+    }))
+    .pipe($.stylint())
+    .pipe($.stylint.reporter())
+});
+
 // js lint
 gulp.task('eslint', function() {
-  gulp.src(src + 'js/**/*.js')
+  gulp.src(develop + 'js/*.js')
     .pipe($.plumber({
       errorHandler: $.notify.onError('Error: <%= error.message %>')
     }))
@@ -101,33 +113,38 @@ gulp.task('eslint', function() {
     }))
     .pipe($.eslint.format())
     .pipe($.eslint.failAfterError())
-    .pipe(gulp.dest(develop + 'js/'))
 });
 
 // deploy
-// js minify
-gulp.task('uglify', function() {
-  gulp.src(develop + 'js/**/*.js')
-    .pipe($.plumber({
-      errorHandler: $.notify.onError('Error: <%= error.message %>')
-    }))
-    .pipe($.uglify())
-    .pipe(gulp.dest(develop + 'js/'))
-});
-
 // css minify
 gulp.task('cleanCss', function() {
-  gulp.src(develop + 'css/**/*.css')
+  gulp.src(develop + 'css/*.css')
     .pipe($.plumber({
       errorHandler: $.notify.onError('Error: <%= error.message %>')
     }))
     .pipe($.cleanCss())
-    .pipe(gulp.dest(develop + 'css/'))
+    .pipe($.rename({
+      suffix: '.min'
+    }))
+    .pipe(gulp.dest(develop + 'css/min/'))
+});
+
+// js minify
+gulp.task('uglify', function() {
+  gulp.src(develop + 'js/*.js')
+    .pipe($.plumber({
+      errorHandler: $.notify.onError('Error: <%= error.message %>')
+    }))
+    .pipe($.uglify())
+    .pipe($.rename({
+      suffix: '.min'
+    }))
+    .pipe(gulp.dest(develop + 'js/min/'))
 });
 
 // default tasks
 gulp.task('default', ['browser-sync', 'watch']);
-// build tasks
-gulp.task('build', ['sass', 'htmlhint', 'eslint']);
-// build and deploy tasks
-gulp.task('deploy', ['uglify', 'cleanCss']);
+// build and test tasks
+gulp.task('build', ['sass', 'htmlhint', 'stylint', 'eslint']);
+// deploy tasks
+gulp.task('deploy', ['cleanCss', 'uglify']);
