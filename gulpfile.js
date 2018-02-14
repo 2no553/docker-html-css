@@ -34,9 +34,8 @@ gulp.task('browser-sync', function() {
 // watch
 gulp.task('watch',function(){
   gulp.watch([src + 'ejs/**/*.ejs', src + 'ejs/_module/_*.ejs'], ['ejs']);
-  gulp.watch(src + 'js/**/*.js', ['uglify']);
   gulp.watch(src + 'sass/**/*.scss', ['sass']);
-  gulp.watch(develop + '*.html').on('change', browserSync.reload);
+  gulp.watch([develop + '*.html', develop+'js/**/*.js']).on('change', browserSync.reload);
 });
 
 // build
